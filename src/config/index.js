@@ -19,7 +19,7 @@ environments.forEach((name) => {
 
 const nodeEnvironment = process.env.NODE_ENV || 'development'
 const appPort = process.env.PORT || 3000
-const appUrl = `${process.env.URL}:${appPort}` || `http://localhost:${appPort}`
+const appUrl = `${process.env.URL}` || 'http://localhost:3000'
 
 const mongodbHost = process.env.MONGODB_HOST || 'localhost'
 const mongodbUser = process.env.MONGODB_USER || 'omnistack'
