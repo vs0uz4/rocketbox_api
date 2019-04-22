@@ -6,7 +6,7 @@ const socket = require('socket.io')
 const cors = require('cors')
 
 const routes = require('./routes')
-const { mongodbURI, connectionOptions } = require('./config/mongo')
+const config = require('./config')
 
 const app = express()
 const server = http.Server(app)
@@ -18,7 +18,7 @@ io.on('connection', socket => {
   })
 })
 
-mongoose.connect(mongodbURI, connectionOptions, (err, db) => {
+mongoose.connect(config.mongodb.URI, config.mongodb.OPTIONS, (err, db) => {
   if (err) {
     console.log('Não foi Possível Conectar ao Servidor MongoDB.\nPor Favor Inicie o Servidor.\nError:', err)
   } else {
@@ -38,4 +38,4 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')))
 app.use(routes)
 
-server.listen(process.env.PORT || 3000)
+server.listen(config.app.PORT)
