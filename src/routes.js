@@ -11,6 +11,7 @@ routes.get('/', (req, res) => {
   return res.send('Enjoy the silence...')
 })
 
+routes.get('/boxes', BoxController.index)
 routes.post('/boxes', BoxController.store)
 routes.get('/boxes/:id', BoxController.show)
 
