@@ -18,13 +18,9 @@ io.on('connection', socket => {
   })
 })
 
-mongoose.connect(config.mongodb.URI, config.mongodb.OPTIONS, (err, db) => {
-  if (err) {
-    console.log('Não foi Possível Conectar ao Servidor MongoDB.\nPor Favor Inicie o Servidor.\nError:', err)
-  } else {
-    console.log('Conexão com o MongoDB Realizada com Sucesso!')
-  }
-})
+mongoose.connect(config.mongodb.URI, config.mongodb.OPTIONS)
+  .then(() => console.log('Conexão com o MongoDB Realizada com Sucesso!'))
+  .catch((err) => console.log('Não foi Possível Conectar ao Servidor MongoDB.\nPor Favor Inicie o Servidor.\nError:', err))
 
 app.use(cors())
 app.use((req, res, next) => {
