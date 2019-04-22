@@ -1,0 +1,19 @@
+version: '3'
+
+volumes:
+  mongodb-data:
+    driver: local
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+    volumes:
+      - mongodb-data:/data/db
+      - "$PWD/mongo-entrypoint/:/docker-entrypoint-initdb.d/"
+    ports:
+      - 27017:27017
+    command: mongod --auth
