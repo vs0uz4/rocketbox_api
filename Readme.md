@@ -8,7 +8,7 @@ O RocketBox API é um dos projetos desenvolvidos no Workshop **Semana OmniStack 
 
 Todo o ecosistema desenvolvido neste Workshop, consiste em um exemplo de **disco virtual**, parecido com o conhecido *Dropbox*, sendo que numa versão bem mais simples, onde teremos basicamente somente duas entidades, **Boxes** e **Arquivos**. Os *Boxes* são as pastas/caixas aonde os arquivos serão arquivados/enviados, um Box pode ter vários *Arquivos* associados a ele.
 
-O aplicativo mobile será desenvolvido em Javascript, usando o framework React Native, um aplicativo multiplataforma, podendo ser disponibilizado para as plataformas *IOS* e *ANDROID*.
+O aplicativo mobile será desenvolvido em Javascript, usando o framework multiplataforma React Native, podendo assim disponibilizar aplicativos para as plataformas *IOS* e *ANDROID*.
 
 
 ## Tecnologias Envolvidas
