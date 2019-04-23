@@ -1,5 +1,5 @@
 <p align="center">
-<img style="-webkit-user-select: none;padding: 10px;" src="https://lh3.googleusercontent.com/VEpYl5otsCsGaAPtwS0GDyzRhcXbj7HOaSmarp5h_86d2lcg5sjBp3vHkYQ2ZM0hSm4aymyq7GV0g36vlLHXsjIT3HFa1T9kwT8pKwymXl98iOSx_U_nkS-wgottYvEt8fF7f5P8i-ADzsNfqN92inyEYg4JH2fNfdBG-AOx3Me_76EaoBVfhevj3r25n5VzfzXgcHzlQX44Yj8OqrkpDpAzBeelYYsvJlpCAlmK-ylbqxxP-2fjqMZRmMU7Ru5JLmuiOuXDgwaI6zD_mBujxPTPGAh_mO-qTBI8KCX3oGXCrvD7qW3pXAzMWLl5B-BcJvLpcG1nfcXPNR0fiC2xk42j2Ep8z81oMpbCY8t0I6RuHnslQtxqV23YGbf-wn9ZKtx1jMBunwUAc6B3TjyrYFA1KgIdi2KM0cPrzJ6LAG0MrJisN4GxR0yVJHDh7PuHndDrNMS8hdxdiFr91IGw_D9LfQ1l7Sh8TUhyMUiyZuwLCoCdkMHBf39BDOvzMuI52AqpvCCIsLRhen4GgW8wUOs8sDDUfRZrm1bIkIRBH49wVESS-lpakAk_qGACR2RKwi4Va0aWyOTNGEo-YTQfCjLpyZU96S8HbB4m6DFNMIDJIgIxSa090wW_GmMGw2CdXYdIhilqqvh7OaJgYbaY6MCfUabsmcQ=w390-h220-no" height="200">
+<img style="-webkit-user-select: none;padding: 10px;" src="https://i.imgur.com/IYXy1ry.png" height="200">
 </p>
 
 
@@ -13,10 +13,67 @@ O aplicativo mobile será desenvolvido em Javascript, usando o framework React N
 
 ## Tecnologias Envolvidas
 - NodeJS;
+- nodemon (desenvolvimento);
+- Cors;
+- dotenv;
 - ExpressJS;
-- MulterJS;
 - Socket.io;
-- Yarn;
-- MongoDB;
+- MulterJS;
 - Mongoose ORM;
+- MongoDB;
+- Yarn;
 - Heroku.
+
+
+## Funcionalidades
+- Criação de Box;
+- Visualização de Todos os Boxes;
+- Visualização de um Box Específico;
+- Criação e Envio de Files.
+
+
+## Construção da API (rocketbox-api)
+A API foi desenvolvida em Javascript (**nodejs**), e para facilitar o desenvolvimento e não exigir a instalação do MongoDB, no ambiente de desenvolvimento criamos um container docker **MongoDB** através do **docker-compose**.
+
+Para automatizar o processo de inicialização do container MongoDB, criamos o script _'mongo-entrypoint/default-user.sh'_ que irá criar um usuário e uma base de dados padrão para usarmos no desenvolvimento. Este **shell script** é chamado através do script 'docker-compose.yml' onde definimos todas as configurações do container docker e passamos através de variáveis de ambiente os dados do usuário **Root** a ser incluido no MongoDB. Caso necessite adicionar outros usuários para se conectar ao banco de dados MongoDB ou até mesmo trocar as informações do usuário **Root**, primeiramente você precisará alterar os dados no script 'docker-compose.yml', mais precisamente na seção 'environment'. Abaixo podemos ver a seção mencionada destacada:
+
+```
+environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+```
+
+Em um segundo passo, você terá de alterar no script 'mongo-entrypoint/default-user.sh' a linha aonde definimos o usuário root (administrador) do banco de dados, assim como podemos verificar no trecho abaixo destacado: 
+
+```
+mongo --authenticationDatabase admin --host localhost -u root -p 123456 omnistack --eval ...
+```
+> Para configurar o ambiente do container colocando um usuário e senha de sua escolha, basta trocar respectivamente os termos `root` e `123456` da seção `enviroment` acima já representada, e repetir o mesmo procedimento na linha do script 'mongo-entrypoint/default-user.sh' também já apresentada logo acima. 
+
+Caso deseje também alterar o usuário para conexão ao banco MongoDB, basta trocar respectivamente os termos `user` e `pwd` na mesma linha mencionada acima, no trecho com a sentença `db.createUser()`, logo após `--eval` conforme podemos visualizar logo abaixo. Na mesma linha, logo após o termo `db:` temos a definição da base de dados que utilizaremo no desenvolvimento da API, por padrão definimos ela como `omnistack`, caso deseje mudar o nome da base de dados você precisará alterar o termo `db:` também.
+
+```
+--eval "db.createUser({user: 'omnistack', pwd: 'omnistack', roles: [{role: 'readWrite', db: 'omnistack'}]}); db.createUser({user: 'admin', pwd: '654321', roles: [{role: 'userAdminAnyDatabase', db: 'admin'}]});"
+```
+
+Caso deseje efetuar tais mudanças relatadas acima, você precisa ficar atento e também ajustar as informações contidas no arquivo `.env`, que em nosso repositório está representado pelo exemplo `.env.example`. Para isto, basta você copiar o arquivo `.env.example` para um novo arquivo com o nome de `.env` e edita-lo ajustando as devidas variáveis de ambiente. Abaixo podemos visualizar a seção responsável por estas configurações.
+
+```
+# MongoDB Variables for Connection
+MONGODB_HOST=localhost
+MONGODB_USER=omnistack
+MONGODB_PASSWORD=omnistack
+MONGODB_DATABASE=omnistack
+```
+
+> O arquivo `.env` é responsável por passar para nossa aplicação as informações de conexão com o banco de dados MongoDB. No cenário que criamos estamos utilizando este arquivo apenas no ambiente de desenvolvimento, mas o mesmo pode ser utilizado também em produção, porém por medida de segurança não deve ser acrescentado no versionamento do código.
+
+> Como estamos usando como hospedagem de nosso código a plataforma do `heroku`, todas as variáveis de ambiente são definidas no `dashboard` da plataforma tornando desnecessário o uso do arquivo `.env`.
+
+
+## Comandos
+...
+
+
+## Todo
+...
