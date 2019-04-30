@@ -2,7 +2,8 @@ version: '3'
 
 volumes:
   mongodb-data:
-    driver: local
+  minio-data:
+  minio-config:
 
 services:
   mongo:
@@ -17,3 +18,16 @@ services:
     ports:
       - 27017:27017
     command: mongod --auth
+  
+  minio:
+    image: minio/minio:latest
+    command: ["server", "/data"]
+    tty: true
+    volumes:
+      - minio-data:/data
+      - minio-config:/root/.minio
+    environment:
+      - MINIO_ACCESS_KEY=BDIS44FB8UUXM40DFCKV
+      - MINIO_SECRET_KEY=TA5pCZ8ZLPCRP0rtkIqommpHve_pakPZbdQqR6XM
+    ports:
+      - 9000:9000
