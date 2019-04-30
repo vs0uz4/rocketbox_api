@@ -6,7 +6,11 @@ const File = new mongoose.Schema({
     type: String,
     require: true
   },
-  path: {
+  etag: {
+    type: String,
+    required: true
+  },
+  key: {
     type: String,
     required: true
   }
@@ -17,8 +21,8 @@ const File = new mongoose.Schema({
 })
 
 File.virtual('url').get(function () {
-  const url = config.app.URL
-  return `${url}/files/${encodeURIComponent(this.path)}`
+  const url = config.s3.S3_URL_FILE_LINK
+  return `${url}/${encodeURIComponent(this.key)}`
 })
 
 module.exports = mongoose.model('File', File)
