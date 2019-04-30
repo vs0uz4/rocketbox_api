@@ -8,7 +8,13 @@ const environments = [
   'MONGODB_HOST',
   'MONGODB_USER',
   'MONGODB_PASSWORD',
-  'MONGODB_DATABASE'
+  'MONGODB_DATABASE',
+  'S3_ACCESS_KEY',
+  'S3_SECRET_KEY',
+  'S3_ENDPOINT',
+  'S3_REGION',
+  'S3_BUCKET_NAME',
+  'S3_URL_FILE_LINK'
 ]
 
 environments.forEach((name) => {
@@ -17,35 +23,37 @@ environments.forEach((name) => {
   }
 })
 
-const nodeEnvironment = process.env.NODE_ENV || 'development'
-const appPort = process.env.PORT || 3000
-const appUrl = `${process.env.URL}` || 'http://localhost:3000'
-
+let mongoosebURI = ''
 const mongodbHost = process.env.MONGODB_HOST || 'localhost'
 const mongodbUser = process.env.MONGODB_USER || 'omnistack'
 const mongodbPassword = process.env.MONGODB_PASSWORD || 'omnistack'
 const mongodbDatabase = process.env.MONGODB_DATABASE || 'omnistack'
 
-let mongoosebURI = ''
 if (process.env.NODE_ENV === 'production') {
   mongoosebURI = `mongodb+srv://${mongodbUser}:${mongodbPassword}@${mongodbHost}/${mongodbDatabase}?retryWrites=true`
 } else {
   mongoosebURI = `mongodb://${mongodbUser}:${mongodbPassword}@${mongodbHost}/${mongodbDatabase}?retryWrites=true`
 }
 
-const mongooseOptions = {
-  useNewUrlParser: true
-}
-
 const config = {
   app: {
-    NODE_ENV: nodeEnvironment,
-    PORT: appPort,
-    URL: appUrl
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    PORT: process.env.PORT || 3000,
+    URL: `${process.env.URL}` || 'http://localhost:3000'
   },
   mongodb: {
     URI: mongoosebURI,
-    OPTIONS: mongooseOptions
+    OPTIONS: {
+      useNewUrlParser: true
+    }
+  },
+  s3: {
+    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY || 'BDIS44FB8UUXM40DFCKV',
+    S3_SECRET_KEY: process.env.S3_SECRET_KEY || 'TA5pCZ8ZLPCRP0rtkIqommpHve_pakPZbdQqR6XM',
+    S3_ENDPOINT: process.env.S3_ENDPOINT || 'http://127.0.0.1:9000',
+    S3_REGION: process.env.S3_REGION || 'us-east-1',
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME || 'rocketbox',
+    S3_URL_FILE_LINK: process.env.S3_URL_FILE_LINK || 'http://127.0.0.1:9000/rocketbox/'
   }
 }
 
